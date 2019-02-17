@@ -26,22 +26,14 @@ func FetchName(path chan string, person People) string {
 	req, err := fetch("http://uinames.com/api/?region=England")
 	if err != nil {
 		log.Fatal(err)
-	} else {
-		if err != nil {
-			log.Fatal(err)
-		} else {
-
-			err = json.Unmarshal(req, &person)
-			if err != nil {
-				log.Fatal(err)
-			}
-			jokepath := "http://api.icndb.com/jokes/random?firstName=" + person.FirstName + "&lastName=" + person.Surname + "&limitTo=[nerdy]"
-			path <- jokepath
-			return (person.FirstName + " " + person.Surname)
-		}
-
 	}
-	return "ERR"
+	err = json.Unmarshal(req, &person)
+	if err != nil {
+		log.Fatal(err)
+	}
+	jokepath := "http://api.icndb.com/jokes/random?firstName=" + person.FirstName + "&lastName=" + person.Surname + "&limitTo=[nerdy]"
+	path <- jokepath
+	return (person.FirstName + " " + person.Surname)
 
 }
 
